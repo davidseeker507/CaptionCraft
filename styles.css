@@ -1,0 +1,130 @@
+/*
+position: fixed;  = Imagine you have a sticker you put on your screen — no matter if you scroll up or down, the sticker stays in the same place.
+top: = how far from the top do you want this
+right = how far from right do you want this
+border-radius = makes corners more round
+width: = how wide it will be
+height = how height it will be
+background-color: = just the color it is going to be
+font-family: set the font of the text
+
+
+*/
+
+
+#Signup {
+    position: fixed;
+    top: 200000px;
+    left: 20px;
+    border-radius: 50px;
+    width: 200px;
+    height: 45px;
+    background-color: white;
+    font-size: 15px;
+    font-family: "Arial Black";
+    cursor: pointer; /* makes it feel pressable/ the mouse will change into the "YOU CAN PRESS THIS"*/
+    box-shadow: 0 4px #999; /* adds a shadow making it look 3d*/
+
+
+}
+
+button:active {
+    background-color: rgb(173, 173, 173);
+}
+
+:root {
+    --color-1: Black; /* These give the colors a name so you can use it in different places */
+    --text-color: white;
+    --acent-color: blue;
+
+}
+
+*{
+    margin: 0; /* This removes the default margin and padding from all elements the * means that it targets everything*/
+    padding: 0; /* This removes the default margin and padding from all elements the * means that it targets everything*/
+    
+}
+html {
+    font-size: 12pt; /* the html means that it targets all html  and give the defualt font size and also gives all the fonts*/
+    font-family: Poppins, 'Segoe UI', sans-serif; /* this means that it will use the font Poppins and if it is not available it will use Segoe UI and if that is not available it will use the default font*/
+}
+
+nav{
+height: 60px;
+background-color: var(--color-1);
+display: flex; /* its like putting all your code onto a rubber band*/
+justify-content: flex-end; /* this means that it will put all the items to the right*/
+align-items: center; /* this means that it will put all the items to the center*/
+}
+
+.links-container{
+    height: 100%; /* this means that it will take the full height of the parent element*/
+    width: 100%; /* this means that it will take the full width of the parent element*/
+    display: flex;
+    flex-direction: row; /* this means that it will put all the items in a row*/
+    align-items: center; /* this means that it will put all the items to the center*/
+}
+nav a{
+    height: 100%; /* this means that it will take the full height of the parent element*/
+    padding: 0 20px; /* this means that it will add padding to the left and right of the element*/
+    display: flex;
+    align-items: center; 
+    text-decoration: none;
+    color: var(--text-color)
+}
+nav a:hover{
+    background-color: var(--acent-color); /* this means that it will change the background color when you hover over it*/
+
+}
+
+nav .homelink{
+    margin-right: auto; /* this means that it will put all the items to the left*/
+}
+nav svg{
+    fill :var(--text-color)
+}
+#sidebar-active{
+    display: none;
+}
+.open-sidebar, .close-sidebar{
+    display: none; /* this means that it will not show the element*/  
+}
+
+@media(max-width: 560px){
+    .links-container{
+        flex-direction: column; /* this means that it will put all the items in a column*/
+        align-items: flex-start; /* this means that it will put all the items to the left*/
+        position: fixed; /* this means that it will put all the items in a fixed position*/
+        top: 0;
+        right: -100%;
+        z-index: 10; /* this means that it will put all the items in a fixed position*/
+        width: 300px;
+
+        background-color: var(--color-1);
+        box-shadow: -5px 0 5px rgba(0,0,0,0.25); /* this means that it will put all the items in a fixed position*/
+        transition: .75s ease-out;
+    }
+    nav a{
+        box-sizing: border-box; /* this means that it will put all the items in a fixed position*/
+        width: 100%; /* this means that it will put all the items in a fixed position*/
+        height: auto;
+        padding: 20px 30px; /* this means that it will put all the items in a fixed position*/
+        justify-content: flex-start; /* this means that it will put all the items in a fixed position*/
+    }
+    .open-sidebar, .close-sidebar{
+    display: block; /* this means that it will put all the items in a fixed position*/
+    padding:20px; /* this means that it will add padding to the left and right of the element*/
+    }
+    #sidebar-active:checked ~ .links-container{
+        right: 0; /* this means that it will put all the items in a fixed position*/
+    }
+    #sidebar-active:checked ~ #overlay{
+        background: red;
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9;
+    }
+}
