@@ -14,8 +14,8 @@ font-family: set the font of the text
 
 #Signup {
     position: fixed;
-    top: 200000px;
-    left: 20px;
+    top: 10px;
+    right: 40px;
     border-radius: 50px;
     width: 200px;
     height: 45px;
@@ -26,6 +26,10 @@ font-family: set the font of the text
     box-shadow: 0 4px #999; /* adds a shadow making it look 3d*/
 
 
+}
+
+#signup-a{
+    background-color: #999;
 }
 
 button:active {
@@ -50,7 +54,7 @@ html {
 }
 
 nav{
-height: 60px;
+height: 70px;
 background-color: var(--color-1);
 display: flex; /* its like putting all your code onto a rubber band*/
 justify-content: flex-end; /* this means that it will put all the items to the right*/
