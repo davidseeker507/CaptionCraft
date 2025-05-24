@@ -4,14 +4,83 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CaptionCraft</title>
-    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      /* Reset defaults */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Set background */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #c7c6cc, #35373a);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Center form container */
+      .center-form {
+        background: rgba(0, 0, 0, 0.7);
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+
+      .center-form h1 {
+        color: #fff;
+        margin-bottom: 20px;
+      }
+
+      /* Style form inputs */
+      .center-form input {
+        width: 100%;
+        padding: 12px 16px;
+        margin-bottom: 15px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+      }
+
+      .center-form input:focus {
+        outline: none;
+        border: 2px solid #07168c;
+        background: #f0f8ff;
+      }
+
+      /* Style button */
+      .center-form button {
+        width: 100%;
+        padding: 12px 16px;
+        background: #0c3fe6;
+        color: #000;
+        font-size: 1rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .center-form button:hover {
+        background: #00d199;
+      }
+    </style>
   </head>
   <body>
     <div class="center-form">
-      <input type="text" placeholder="Enter your email" />
-      <!-- The input tag means that the user can give input, the "text" part tells html that it wants regular text-->
-      <input type="password" placeholder="Enter your password" />
-      <!-- password means that its just text but its hidden-->
+      <h1>Sign In</h1>
+      <form>
+        <input type="text" placeholder="Enter your email" />
+        <input type="password" placeholder="Enter your password" />
+        <button type="submit">Sign In</button>
+      </form>
     </div>
   </body>
 </html>

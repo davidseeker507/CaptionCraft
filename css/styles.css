@@ -20,7 +20,7 @@ right: 40px;
 border-radius: 50px;
 width: 200px;
 height: 45px;
-background-color: white;
+background-color: rgb(188, 185, 185);
 font-size: 15px;
 font-family: "Arial Black";
 cursor: pointer; /* makes it feel pressable/ the mouse will change into the "YOU CAN PRESS THIS"*/
@@ -50,9 +50,10 @@ padding: 0; /* This removes the default margin and padding from all elements the
 
 }
 html {
-font-size: 12pt; /* the html means that it targets all html and give the defualt font size and also gives all the fonts*/
-font-family: Poppins, 'Segoe UI', sans-serif; /* this means that it will use the font Poppins and if it is not available it will use Segoe UI and if that is not available it will use the default font*/
-background-color: rgb(36, 35, 35);
+    background-image:
+    repeating-radial-gradient(circle at 0 0, #444 1px, transparent 0),
+    repeating-radial-gradient(circle at 100px 100px, #444 1px, transparent 0);
+  background-size: 40px 40px;
 }
 
 nav{
@@ -72,7 +73,7 @@ align-items: center; /* this means that it will put all the items to the center*
 }
 nav a{
 height: 100%; /* this means that it will take the full height of the parent element*/
-padding: 0 20px; /* this means that it will add padding to the left and right of the element*/
+padding: 0 50px; /* this means that it will add padding to the left and right of the element*/
 display: flex;
 align-items: center;
 text-decoration: none;
@@ -137,17 +138,6 @@ left: 0;
 z-index: 9;
 }
 }
-
-.center-form {
-  /* your styles here */
- background: #222;
-color: white;
-display: flex;
-  flex-direction: column;
-  align-items: center;      /* centers horizontally */
-  justify-content: center;  /* centers vertically */
-  min-height: 100vh;
-}
 #file-input {
   margin: 20px 0;
   padding: 12px;
@@ -184,3 +174,49 @@ display: flex;
   background: #14017a;
   transform: translateY(-2px) scale(1.03);
 }
+
+.center-form {
+position: relative;
+background-color: #222;
+color: white;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+min-height: 100vh; 
+overflow: hidden;
+}
+
+.center-form::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  background: linear-gradient(270deg, #1a1a1a, #13101000, #bdbdbd, #6d6c6d);
+  background-size: 300% 300%;
+  opacity: 0.25; /* Make it subtle */
+  animation: gradientMove 8s ease-in-out infinite;
+  border-radius: 20px; /* Optional: rounded corners */
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Make sure your form content is above the animation */
+.center-form > * {
+  position: relative;
+  z-index: 1;
+} 
+.center-form h1 {
+  font-size: 7.5rem;
+  margin-bottom: 20px;
+}
+
+.center-form p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
