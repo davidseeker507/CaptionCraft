@@ -12,45 +12,47 @@ font-family: set the font of the text
 */
 
 
+
 #Signup {
-    position: absolute;
-    top: 10px;
-    right: 40px;
-    border-radius: 50px;
-    width: 200px;
-    height: 45px;
-    background-color: white;
-    font-size: 15px;
-    font-family: "Arial Black";
-    cursor: pointer; /* makes it feel pressable/ the mouse will change into the "YOU CAN PRESS THIS"*/
-    box-shadow: 0 4px #999; /* adds a shadow making it look 3d*/
+position: absolute;
+top: 10px;
+right: 40px;
+border-radius: 50px;
+width: 200px;
+height: 45px;
+background-color: white;
+font-size: 15px;
+font-family: "Arial Black";
+cursor: pointer; /* makes it feel pressable/ the mouse will change into the "YOU CAN PRESS THIS"*/
+box-shadow: 0 4px #999; /* adds a shadow making it look 3d*/
 
 
 }
 
 #signup-a{
-    background-color: #999;
+background-color: #999;
 }
 
 button:active {
-    background-color: rgb(173, 173, 173);
+background-color: rgb(173, 173, 173);
 }
 
 :root {
-    --color-1: Black; /* These give the colors a name so you can use it in different places */
-    --text-color: white;
-    --acent-color: rgb(19, 2, 116);
+--color-1: Black; /* These give the colors a name so you can use it in different places */
+--text-color: white;
+--acent-color: rgb(19, 2, 116);
 
 }
 
 *{
-    margin: 0; /* This removes the default margin and padding from all elements the * means that it targets everything*/
-    padding: 0; /* This removes the default margin and padding from all elements the * means that it targets everything*/
-    
+margin: 0; /* This removes the default margin and padding from all elements the * means that it targets everything*/
+padding: 0; /* This removes the default margin and padding from all elements the * means that it targets everything*/
+
 }
 html {
-    font-size: 12pt; /* the html means that it targets all html  and give the defualt font size and also gives all the fonts*/
-    font-family: Poppins, 'Segoe UI', sans-serif; /* this means that it will use the font Poppins and if it is not available it will use Segoe UI and if that is not available it will use the default font*/
+font-size: 12pt; /* the html means that it targets all html and give the defualt font size and also gives all the fonts*/
+font-family: Poppins, 'Segoe UI', sans-serif; /* this means that it will use the font Poppins and if it is not available it will use Segoe UI and if that is not available it will use the default font*/
+background-color: rgb(36, 35, 35);
 }
 
 nav{
@@ -62,83 +64,123 @@ align-items: center; /* this means that it will put all the items to the center*
 }
 
 .links-container{
-    height: 100%; /* this means that it will take the full height of the parent element*/
-    width: 100%; /* this means that it will take the full width of the parent element*/
-    display: flex;
-    flex-direction: row; /* this means that it will put all the items in a row*/
-    align-items: center; /* this means that it will put all the items to the center*/
+height: 100%; /* this means that it will take the full height of the parent element*/
+width: 100%; /* this means that it will take the full width of the parent element*/
+display: flex;
+flex-direction: row; /* this means that it will put all the items in a row*/
+align-items: center; /* this means that it will put all the items to the center*/
 }
 nav a{
-    height: 100%; /* this means that it will take the full height of the parent element*/
-    padding: 0 20px; /* this means that it will add padding to the left and right of the element*/
-    display: flex;
-    align-items: center; 
-    text-decoration: none;
-    color: var(--text-color)
+height: 100%; /* this means that it will take the full height of the parent element*/
+padding: 0 20px; /* this means that it will add padding to the left and right of the element*/
+display: flex;
+align-items: center;
+text-decoration: none;
+color: var(--text-color)
 }
 nav a:hover{
-    background-color: var(--acent-color); /* this means that it will change the background color when you hover over it*/
+background-color: var(--acent-color); /* this means that it will change the background color when you hover over it*/
 
 }
 
 nav .homelink{
-    margin-right: auto; /* this means that it will put all the items to the left*/
+margin-right: auto; /* this means that it will put all the items to the left*/
 }
 nav svg{
-    fill :var(--text-color)
+fill :var(--text-color)
 }
 #sidebar-active{
-    display: none;
+display: none;
 }
 .open-sidebar, .close-sidebar{
-    display: none; /* this means that it will not show the element*/  
+display: none; /* this means that it will not show the element*/
 }
 
 @media(max-width: 560px){
-    .links-container{
-        flex-direction: column; /* this means that it will put all the items in a column*/
-        align-items: flex-start; /* this means that it will put all the items to the left*/
-        position: fixed; /* this means that it will put all the items in a fixed position*/
-        top: 0;
-        right: -100%;
-        z-index: 10; /* this means that it will put all the items in a fixed position*/
-        width: 300px;
+.links-container{
+flex-direction: column; /* this means that it will put all the items in a column*/
+align-items: flex-start; /* this means that it will put all the items to the left*/
+position: fixed; /* this means that it will put all the items in a fixed position*/
+top: 0;
+right: -100%;
+z-index: 10; /* this means that it will put all the items in a fixed position*/
+width: 300px;
 
-        background-color: var(--color-1);
-        box-shadow: -5px 0 5px rgba(0,0,0,0.25); /* this means that it will put all the items in a fixed position*/
-        transition: .75s ease-out;
-    }
-    nav a{
-        box-sizing: border-box; /* this means that it will put all the items in a fixed position*/
-        width: 100%; /* this means that it will put all the items in a fixed position*/
-        height: auto;
-        padding: 20px 30px; /* this means that it will put all the items in a fixed position*/
-        justify-content: flex-start; /* this means that it will put all the items in a fixed position*/
-    }
-    .open-sidebar, .close-sidebar{
-    display: block; /* this means that it will put all the items in a fixed position*/
-    padding:20px; /* this means that it will add padding to the left and right of the element*/
-    }
-    #sidebar-active:checked ~ .links-container{
-        right: 0; /* this means that it will put all the items in a fixed position*/
-    }
-    #sidebar-active:checked ~ #overlay{
-        background: red;
-        height: 100%;
-        width: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 9;
-    }
+background-color: var(--color-1);
+box-shadow: -5px 0 5px rgba(0,0,0,0.25); /* this means that it will put all the items in a fixed position*/
+transition: .75s ease-out;
+}
+nav a{
+box-sizing: border-box; /* this means that it will put all the items in a fixed position*/
+width: 100%; /* this means that it will put all the items in a fixed position*/
+height: auto;
+padding: 20px 30px; /* this means that it will put all the items in a fixed position*/
+justify-content: flex-start; /* this means that it will put all the items in a fixed position*/
+}
+.open-sidebar {
+padding:20px; /* this means that it will add padding to the left and right of the element*/
+}
+.close-sidebar{
+display: block; /* this means that it will put all the items in a fixed position*/
+padding:20px; /* this means that it will add padding to the left and right of the element*/
+}
+#sidebar-active:checked ~ .links-container{
+right: 0; /* this means that it will put all the items in a fixed position*/
+}
+#sidebar-active:checked ~ #overlay{
+background: red;
+height: 100%;
+width: 100%;
+position: fixed;
+top: 0;
+left: 0;
+z-index: 9;
+}
 }
 
-input[type=text]{
-    position: fixed;
-    top: 50%;
-    right: 50%;
-    transform: translate(50%, -50%);
-    border-radius: 5px;
-    width: 300px;
-    height: 50px;
+.center-form {
+  /* your styles here */
+ background: #222;
+color: white;
+display: flex;
+  flex-direction: column;
+  align-items: center;      /* centers horizontally */
+  justify-content: center;  /* centers vertically */
+  min-height: 100vh;
+}
+#file-input {
+  margin: 20px 0;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #333;
+  color: #fff;
+  font-size: 1rem;
+  width: 250px;
+  cursor: pointer;
+  transition: border 0.2s;
+}
+
+#file-input:hover, #file-input:focus {
+  border: 1.5px solid var(--acent-color);
+}
+
+/* Style the generate button */
+#generate-button {
+  margin: 10px 0 0 0;
+  padding: 12px 32px;
+  border-radius: 8px;
+  border: none;
+  background: var(--acent-color);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: background 0.2s, transform 0.1s;
+}
+
+#generate-button:hover {
+  background: #14017a;
+  transform: translateY(-2px) scale(1.03);
 }
