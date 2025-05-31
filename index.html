@@ -87,10 +87,89 @@ The text for each link is "Home", so your menu will show "Home" six times-->
     </nav>
     <div class="center-form">
       <h1>CaptionCraft</h1>
+      <h2 id="typing-text">Loading</h2>
       <p>Convert your videos to text with AI</p>
       <input type="file" id="file-input" />
       <!-- The input tag means that the user can give input, the "text" part tells html that it wants regular text-->
       <button id="generate-button">Generate Subtitles</button>
+      <div id="progress-container">
+        <div id="progress-bar"></div>
+        <span id="progress-text">0%</span>
+      </div>
+      
       <!-- password means that its just text but its hidden-->
+
+
+<script>
+const phrases = [
+  "Turn your video into text...",
+  "Auto subtitles in seconds...",
+  "AI-powered captioning...",
+  "Effortless video transcription...",
+  "Transform speech to text...",
+  "Instant captions for your videos...",
+  "Create subtitles with AI...",
+  "Video captioning made easy...",
+  "AI subtitles for your content...",
+];
+
+let currentPhraseIndex = 0;
+let currentCharIndex = 0;
+let isDeleting = false;
+const typingElement = document.getElementById("typing-text");
+
+function type() {
+  const currentPhrase = phrases[currentPhraseIndex];// gets the current phase to type//
+
+  if (isDeleting) {
+    currentCharIndex--; // if we are deleting, decrease the letters//
+  } else {
+    currentCharIndex++; // if we are typing, increase the letters//
+  }
+
+  typingElement.textContent = currentPhrase.substring(0, currentCharIndex);
+
+  if (!isDeleting && currentCharIndex === currentPhrase.length) {
+    setTimeout(() => isDeleting = true, 1000);
+  }
+
+  if (isDeleting && currentCharIndex === 0) {
+    isDeleting = false;
+    currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length; // it makes sure that it loops  because if the currentPhraseindex goes 1,2,3 and then can't keep going %phrase.lenth will reset it when needed//
+  }
+
+  const speed = isDeleting ? 50 : 100;
+  setTimeout(type, speed); // it would only type once, not over and over//
+}
+
+// Start the animation
+type();
+
+
+
+
+
+document.getElementById("generate-button").addEventListener("click", () => {
+  confetti();
+});
+
+document.getElementById("file-input").addEventListener("change", (e) => {
+  const fileName = e.target.files[0]?.name;
+  if (fileName) {
+    alert(`Selected file: ${fileName}`);
+  }
+});
+
+
+const allowedTypes = ["video/mp4", "video/quicktime"];
+if (!allowedTypes.includes(file.type)) {
+  alert("Invalid file type. Please upload a video file.");
+}
+
+
+</script>
+
+
+
   </body>
 </html>
