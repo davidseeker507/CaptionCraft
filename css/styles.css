@@ -157,6 +157,7 @@ z-index: 9;
 
 /* Style the generate button */
 #generate-button {
+  display: none;
   margin: 10px 0 0 0;
   padding: 12px 32px;
   border-radius: 8px;
