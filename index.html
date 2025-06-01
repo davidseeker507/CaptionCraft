@@ -31,7 +31,6 @@ What have I actually Learned?:
 
 
 -->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -39,39 +38,25 @@ What have I actually Learned?:
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CaptionCraft</title>
     <link rel="stylesheet" href="css/styles.css" />
+    <!-- ✅ Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   </head>
   <body>
     <a href="signup.html"><button id="Signup">Sign Up - It's Free</button></a>
-    <!-- Ids are to target one specific thing.-->
+
     <nav>
       <input type="checkbox" id="sidebar-active" />
-      <!-- This is a checkbox that will be used to toggle the sidebar -->
       <label for="sidebar-active" class="open-sidebar-button">
-        <svgsi
-          xmlns="http://www.w3.org/2000/svg"
-          height="32"
-          viewBox="0 -960 960 960"
-          width="32"
-        >
-          <path
-            d="M120-120v-60h720v60H120Zm0-240v-60h720v60H120Zm0-240v-60h720v60H120Z"
-          />
+        <svg xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 -960 960 960" width="32">
+          <path d="M120-120v-60h720v60H120Zm0-240v-60h720v60H120Zm0-240v-60h720v60H120Z"/>
         </svg>
       </label>
+
       <div class="links-container">
         <label for="sidebar-active" class="close-sidebar-button">
-          <!-- Close Icon -->
           <label id="overlay" for="sidebar-active"></label>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="32"
-            viewBox="0 0 24 24"
-            width="24"
-            class="close-icon"
-          >
-            <path
-              d="M18.3 5.71c.39.39.39 1.02 0 1.41L13.41 12l4.89 4.88c.39.39.39 1.02 0 1.41-.39.39-1.02.39-1.41 0L12 13.41l-4.88 4.89c-.39.39-1.02.39-1.41 0-.39-.39-.39-1.02 0-1.41L10.59 12 5.7 7.12c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0L12 10.59l4.88-4.89c.39-.39 1.02-.39 1.41 0z"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 0 24 24" width="24" class="close-icon">
+            <path d="M18.3 5.71c.39.39.39 1.02 0 1.41L13.41 12l4.89 4.88c.39.39.39 1.02 0 1.41-.39.39-1.02.39-1.41 0L12 13.41l-4.88 4.89c-.39.39-1.02.39-1.41 0-.39-.39-.39-1.02 0-1.41L10.59 12 5.7 7.12c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0L12 10.59l4.88-4.89c.39-.39 1.02-.39 1.41 0z"/>
           </svg> 
         </label>
         <a class="home-link" href="#home">Home</a>
@@ -79,97 +64,101 @@ What have I actually Learned?:
         <a href="solutions.html">Solutions</a>
         <a href="Resources.html">Resources</a>
         <a href="pricing.html">Pricing</a>
-
-        <!-- The first link has a special class called home-link, which you can use to style it differently in your CSS.
-All the links go to the same place (#home), which means if you click them, the page will scroll to the element with id="home" (if it exists).
-The text for each link is "Home", so your menu will show "Home" six times-->
       </div>
     </nav>
-    <div class="center-form">
-      <h1>CaptionCraft</h1>
-      <h2 id="typing-text">Loading</h2>
-      <p>Convert your videos to text with AI</p>
-      <input type="file" id="file-input" />
-      <!-- The input tag means that the user can give input, the "text" part tells html that it wants regular text-->
-      <button id="generate-button">Generate Subtitles</button>
-      <div id="progress-container">
-        <div id="progress-bar"></div>
-        <span id="progress-text">0%</span>
-      </div>
-      
-      <!-- password means that its just text but its hidden-->
+
+<!-- inside .center-form -->
+<div class="center-form">
+  <h1 id="cc">CaptionCraft</h1>
+  <h2 id="typing-text">Loading</h2>
+  <p>Convert your videos to text with AI</p>
+  <input type="file" id="file-input" />
+  <button id="generate-button">Generate Subtitles</button>
+
+  <!--  Progress bar is hidden initially -->
+  <div id="progress-container" style="display: none;">
+    <div id="progress-bar"></div>
+    <span id="progress-text"></span>
+  </div>
+</div>
 
 
-<script>
-const phrases = [
-  "Turn your video into text...",
-  "Auto subtitles in seconds...",
-  "AI-powered captioning...",
-  "Effortless video transcription...",
-  "Transform speech to text...",
-  "Instant captions for your videos...",
-  "Create subtitles with AI...",
-  "Video captioning made easy...",
-  "AI subtitles for your content...",
-];
+<!-- ✅ Put this at the bottom of <body> -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-let currentPhraseIndex = 0;
-let currentCharIndex = 0;
-let isDeleting = false;
-const typingElement = document.getElementById("typing-text");
-
-function type() {
-  const currentPhrase = phrases[currentPhraseIndex];// gets the current phase to type//
-
-  if (isDeleting) {
-    currentCharIndex--; // if we are deleting, decrease the letters//
-  } else {
-    currentCharIndex++; // if we are typing, increase the letters//
-  }
-
-  typingElement.textContent = currentPhrase.substring(0, currentCharIndex);
-
-  if (!isDeleting && currentCharIndex === currentPhrase.length) {
-    setTimeout(() => isDeleting = true, 1000);
-  }
-
-  if (isDeleting && currentCharIndex === 0) {
-    isDeleting = false;
-    currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length; // it makes sure that it loops  because if the currentPhraseindex goes 1,2,3 and then can't keep going %phrase.lenth will reset it when needed//
-  }
-
-  const speed = isDeleting ? 50 : 100;
-  setTimeout(type, speed); // it would only type once, not over and over//
-}
-
-// Start the animation
-type();
-
-
-
-
-
-document.getElementById("generate-button").addEventListener("click", () => {
-  confetti();
-});
-
-document.getElementById("file-input").addEventListener("change", (e) => {
-  const fileName = e.target.files[0]?.name;
-  if (fileName) {
-    alert(`Selected file: ${fileName}`);
-  }
-});
-
-
-const allowedTypes = ["video/mp4", "video/quicktime"];
-if (!allowedTypes.includes(file.type)) {
-  alert("Invalid file type. Please upload a video file.");
-}
-
-
-</script>
-
-
-
+  <script>
+    // Typing animation
+    const phrases = [
+      "Turn your video into text...",
+      "Auto subtitles in seconds...",
+      "AI-powered captioning...",
+      "Effortless video transcription...",
+      "Transform speech to text...",
+      "Instant captions for your videos...",
+      "Create subtitles with AI...",
+      "Video captioning made easy...",
+      "AI subtitles for your content...",
+    ];
+  
+    let currentPhraseIndex = 0;
+    let currentCharIndex = 0;
+    let isDeleting = false;
+    const typingElement = document.getElementById("typing-text");
+  
+    function type() {
+      const currentPhrase = phrases[currentPhraseIndex];
+      typingElement.textContent = currentPhrase.substring(0, currentCharIndex);
+      currentCharIndex += isDeleting ? -1 : 1;
+  
+      if (!isDeleting && currentCharIndex === currentPhrase.length) {
+        setTimeout(() => isDeleting = true, 1000);
+      } else if (isDeleting && currentCharIndex === 0) {
+        isDeleting = false;
+        currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+      }
+  
+      setTimeout(type, isDeleting ? 50 : 100);
+    }
+  
+    type();
+  
+    // File input validation
+    document.getElementById("file-input").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const allowedTypes = ["video/mp4", "video/quicktime"];
+        if (!allowedTypes.includes(file.type)) {
+          alert("Invalid file type. Please upload a video file.");
+        } else {
+          alert(`Selected file: ${file.name}`);
+        }
+      }
+    });
+  
+    // Button click: show progress + confetti
+    document.getElementById("generate-button").addEventListener("click", () => {
+      const progressContainer = document.getElementById("progress-container");
+      const progressBar = document.getElementById("progress-bar");
+      const progressText = document.getElementById("progress-text");
+  
+      // ✅ Show bar, reset values
+      progressContainer.style.display = "block";
+      progressBar.style.width = "0%";
+      progressText.textContent = "";
+  
+      let progress = 0;
+  
+      const interval = setInterval(() => {
+        if (progress >= 100) {
+          clearInterval(interval);
+          confetti(); // 🎉 celebrate at 100%
+        } else {
+          progress++;
+          progressBar.style.width = progress + "%";
+          progressText.textContent = progress + "%";
+        }
+      }, 100);
+    });
+  </script>
   </body>
-</html>
+</html>  

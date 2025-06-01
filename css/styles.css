@@ -270,3 +270,30 @@ overflow: hidden;
   text-shadow: 0 0 10px #00e0ff;
 }
 
+#progress-container {
+  width: 80%;
+  height: 25px;
+  background-color: #444;
+  border-radius: 8px;
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+  display: none; /* default hidden */
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #00e0ff;
+  transition: width 0.1s linear;
+}
+
+#progress-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+}
+
