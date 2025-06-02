@@ -20,8 +20,9 @@ right: 40px;
 border-radius: 50px;
 width: 200px;
 height: 45px;
-background-color: rgb(188, 185, 185);
+background-color: rgb(3, 3, 3);
 font-size: 15px;
+color: white;
 font-family: "Arial Black";
 cursor: pointer; /* makes it feel pressable/ the mouse will change into the "YOU CAN PRESS THIS"*/
 box-shadow: 0 4px #999; /* adds a shadow making it look 3d*/
