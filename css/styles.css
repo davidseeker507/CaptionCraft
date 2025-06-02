@@ -84,7 +84,7 @@ nav a:hover{
 background-color: var(--acent-color); /* this means that it will change the background color when you hover over it*/
 
 }
-
+q
 nav .homelink{
 margin-right: auto; /* this means that it will put all the items to the left*/
 }
@@ -94,11 +94,49 @@ fill :var(--text-color)
 #sidebar-active{
 display: none;
 }
-.open-sidebar, .close-sidebar{
+.open-sidebar-button {
+display: none; /* this means that it will not show the element*/
+}
+
+.close-sidebar-button{
 display: none; /* this means that it will not show the element*/
 }
 
 @media(max-width: 560px){
+
+  .center-form {
+    width: 95%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+
+
+.center-form h1 {
+  font-size: 2.5rem; 
+  text-align: center;
+}
+.center-form p {
+  font-size: 1rem; 
+  text-align: center;
+}
+
+#file-input, #generate-button {
+  width: 90%; /* Make the input and button take up most of the screen width */
+}
+
+#Signup {
+  width: 150px;
+  font-size: 14px;
+  top: 5px;
+  right: 10px;
+}
+
+#progress-container {
+  width: 100%; /* Make the progress bar take up most of the screen width */
+}
+
 .links-container{
 flex-direction: column; /* this means that it will put all the items in a column*/
 align-items: flex-start; /* this means that it will put all the items to the left*/
@@ -119,10 +157,11 @@ height: auto;
 padding: 20px 30px; /* this means that it will put all the items in a fixed position*/
 justify-content: flex-start; /* this means that it will put all the items in a fixed position*/
 }
-.open-sidebar {
+.open-sidebar-button {
+display: block; /* this means that it will put all the items in a fixed position*/
 padding:20px; /* this means that it will add padding to the left and right of the element*/
 }
-.close-sidebar{
+.close-sidebar-button{
 display: block; /* this means that it will put all the items in a fixed position*/
 padding:20px; /* this means that it will add padding to the left and right of the element*/
 }
@@ -138,6 +177,10 @@ top: 0;
 left: 0;
 z-index: 9;
 }
+
+
+
+
 }
 #file-input {
   margin: 20px 0;
@@ -297,4 +340,103 @@ overflow: hidden;
   transform: translate(-50%, -50%);
   color: white;
   font-weight: bold;
+}
+
+
+.center-form {
+  position: relative;
+  background-color: #222;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; 
+  overflow: hidden;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.center-form::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  background-color: black;
+  opacity: 1;
+  border-radius: 20px;
+}
+
+.center-form > * {
+  position: relative;
+  z-index: 1;
+}
+
+.center-form h1 {
+  font-size: 7.5rem;
+  margin-bottom: 20px;
+}
+
+.center-form p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+#typing-text::after {
+  content: '|';
+  animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+#typing-text {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  margin-bottom: 15px;
+  height: 2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  position: relative;
+  text-shadow: 0 0 10px #00e0ff;
+}
+
+@media screen and (max-width: 560px) {
+  .center-form {
+    padding: 20px;
+    width: 95%;
+    max-width: 500px;
+  }
+
+  .center-form h1 {
+    font-size: 2.5rem;
+    text-align: center;
+  }
+
+  .center-form p,
+  #typing-text {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  #file-input,
+  #generate-button {
+    width: 90%;
+  }
+
+  #Signup {
+    width: 150px;
+    font-size: 14px;
+    top: 10px;
+    left: 0px;
+  }
+
+  #progress-container {
+    width: 100%;
+  }
 }
