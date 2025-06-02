@@ -69,10 +69,10 @@ fileInput.addEventListener("change", (e) => {
 
 
 // ===============================
-// ⏳ Progress bar + Confetti
+// 
 // ===============================
 document.getElementById("generate-button").addEventListener("click", () => {
-  // ❌ If there's still an error showing, cancel everything
+  //  If there's still an error showing, cancel everything
   if (errorMessage.textContent !== "") return;
 
   const progressContainer = document.getElementById("progress-container");
@@ -88,7 +88,7 @@ document.getElementById("generate-button").addEventListener("click", () => {
   const interval = setInterval(() => {
     if (progress >= 100) {
       clearInterval(interval);
-      confetti(); // 🎉 Confetti party!
+      confetti(); //  Confetti party!
       progressText.textContent = "🎉 Done!";
       progressText.style.color = "lightgreen";
     } else {
@@ -98,4 +98,7 @@ document.getElementById("generate-button").addEventListener("click", () => {
     }
   }, 100);
 });
+
+
+
 
