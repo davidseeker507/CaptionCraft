@@ -12,297 +12,102 @@ font-family: set the font of the text
 */
 
 
-
-#Signup {
-position: absolute;
-top: 10px;
-right: 40px;
-border-radius: 50px;
-width: 200px;
-height: 45px;
-background-color: rgb(3, 3, 3);
-font-size: 15px;
-color: white;
-font-family: "Arial Black";
-cursor: pointer; /* makes it feel pressable/ the mouse will change into the "YOU CAN PRESS THIS"*/
-box-shadow: 0 4px #999; /* adds a shadow making it look 3d*/
-
-
-}
-
-#signup-a{
-background-color: #999;
-}
-
-button:active {
-background-color: rgb(173, 173, 173);
-}
-
 :root {
---color-1: Black; /* These give the colors a name so you can use it in different places */
---text-color: white;
---acent-color: rgb(19, 2, 116);
-
+  --color-1: black;
+  --text-color: white;
+  --acent-color: rgb(19, 2, 116);
 }
 
-*{
-margin: 0; /* This removes the default margin and padding from all elements the * means that it targets everything*/
-padding: 0; /* This removes the default margin and padding from all elements the * means that it targets everything*/
-
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+}
+
+/* Optional background pattern */
 html {
-    background-image:
+  background-image:
     repeating-radial-gradient(circle at 0 0, #444 1px, transparent 0),
     repeating-radial-gradient(circle at 100px 100px, #444 1px, transparent 0);
   background-size: 40px 40px;
 }
 
-nav{
-height: 70px;
-background-color: var(--color-1);
-display: flex; /* its like putting all your code onto a rubber band*/
-justify-content: flex-end; /* this means that it will put all the items to the right*/
-align-items: center; /* this means that it will put all the items to the center*/
-}
-
-.links-container{
-height: 100%; /* this means that it will take the full height of the parent element*/
-width: 100%; /* this means that it will take the full width of the parent element*/
-display: flex;
-flex-direction: row; /* this means that it will put all the items in a row*/
-align-items: center; /* this means that it will put all the items to the center*/
-}
-nav a{
-height: 100%; /* this means that it will take the full height of the parent element*/
-padding: 0 50px; /* this means that it will add padding to the left and right of the element*/
-display: flex;
-align-items: center;
-text-decoration: none;
-color: var(--text-color)
-}
-nav a:hover{
-background-color: var(--acent-color); /* this means that it will change the background color when you hover over it*/
-
-}
-q
-nav .homelink{
-margin-right: auto; /* this means that it will put all the items to the left*/
-}
-nav svg{
-fill :var(--text-color)
-}
-#sidebar-active{
-display: none;
-}
-.open-sidebar-button {
-display: none; /* this means that it will not show the element*/
-}
-
-.close-sidebar-button{
-display: none; /* this means that it will not show the element*/
-}
-
-@media(max-width: 560px){
-
-  .center-form {
-    width: 95%;
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-
-
-
-.center-form h1 {
-  font-size: 2.5rem; 
-  text-align: center;
-}
-.center-form p {
-  font-size: 1rem; 
-  text-align: center;
-}
-
-#file-input, #generate-button {
-  width: 90%; /* Make the input and button take up most of the screen width */
-}
-
-#Signup {
-  width: 150px;
-  font-size: 14px;
-  top: 5px;
-  right: 10px;
-}
-
-#progress-container {
-  width: 100%; /* Make the progress bar take up most of the screen width */
-}
-
-.links-container{
-flex-direction: column; /* this means that it will put all the items in a column*/
-align-items: flex-start; /* this means that it will put all the items to the left*/
-position: fixed; /* this means that it will put all the items in a fixed position*/
-top: 0;
-right: -100%;
-z-index: 10; /* this means that it will put all the items in a fixed position*/
-width: 300px;
-
-background-color: var(--color-1);
-box-shadow: -5px 0 5px rgba(0,0,0,0.25); /* this means that it will put all the items in a fixed position*/
-transition: .75s ease-out;
-}
-nav a{
-box-sizing: border-box; /* this means that it will put all the items in a fixed position*/
-width: 100%; /* this means that it will put all the items in a fixed position*/
-height: auto;
-padding: 20px 30px; /* this means that it will put all the items in a fixed position*/
-justify-content: flex-start; /* this means that it will put all the items in a fixed position*/
-}
-.open-sidebar-button {
-display: block; /* this means that it will put all the items in a fixed position*/
-padding:20px; /* this means that it will add padding to the left and right of the element*/
-}
-.close-sidebar-button{
-display: block; /* this means that it will put all the items in a fixed position*/
-padding:20px; /* this means that it will add padding to the left and right of the element*/
-}
-#sidebar-active:checked ~ .links-container{
-right: 0; /* this means that it will put all the items in a fixed position*/
-}
-#sidebar-active:checked ~ #overlay{
-background: red;
-height: 100%;
-width: 100%;
-position: fixed;
-top: 0;
-left: 0;
-z-index: 9;
-}
-
-
-
-
-}
-#file-input {
-  margin: 20px 0;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #444;
-  background: #333;
-  color: #fff;
-  font-size: 1rem;
-  width: 250px;
-  cursor: pointer;
-  transition: border 0.2s;
-}
-
-#file-input:hover, #file-input:focus {
-  border: 1.5px solid var(--acent-color);
-}
-
-/* Style the generate button */
-#generate-button {
-  display: none;
-  margin: 10px 0 0 0;
-  padding: 12px 32px;
-  border-radius: 8px;
-  border: none;
-  background: var(--acent-color);
-  color: #fff;
-  font-size: 1.1rem;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  transition: background 0.2s, transform 0.1s;
-}
-
-#generate-button:hover {
-  background: #14017a;
-  transform: translateY(-2px) scale(1.03);
-}
-
-.center-form {
-position: relative;
-background-color: #222;
-color: white;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-min-height: 100vh; 
-overflow: hidden;
-}
-
-.center-form {
-  position: relative;
-  background-color: #222;
-  color: white;
+/* Navigation */
+nav {
+  height: 70px;
+  background-color: var(--color-1);
   display: flex;
-  flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
-  justify-content: center;
-  min-height: 100vh; 
-  overflow: hidden;
-  }
-  
-
-  .center-form::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    z-index: 0;
-    background-color: black; /* Solid black background */
-    opacity: 1; /* fully visible */
-    border-radius: 20px;
-  }
-  
-  @keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  
-  /* Make sure your form content is above the animation */
-  .center-form > * {
-    position: relative;
-    z-index: 1;
-  } 
-  .center-form h1 {
-    font-size: 7.5rem;
-    margin-bottom: 20px;
-  }
-  
-  .center-form p {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-  }
-
-
-
-/* Make sure your form content is above the animation */
-.center-form > * {
-  position: relative;
-  z-index: 1;
-} 
-.center-form h1 {
-  font-size: 7.5rem;
-  margin-bottom: 20px;
 }
 
-.center-form p {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
+.links-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-#typing-text::after {
-  content: '|';
-  animation: blink 0.7s infinite;
+nav a {
+  height: 100%;
+  padding: 0 50px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text-color);
 }
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+nav a:hover {
+  background-color: var(--acent-color);
 }
 
+nav .homelink {
+  margin-right: auto;
+}
+
+nav svg {
+  fill: var(--text-color);
+}
+
+#sidebar-active {
+  display: none;
+}
+
+.open-sidebar-button,
+.close-sidebar-button {
+  display: none;
+}
+
+/* Signup Button */
+#Signup {
+  position: absolute;
+  top: 10px;
+  right: 40px;
+  width: 200px;
+  height: 45px;
+  border-radius: 50px;
+  background-color: rgb(3, 3, 3);
+  font-size: 15px;
+  color: white;
+  font-family: "Arial Black";
+  cursor: pointer;
+  box-shadow: 0 4px #999;
+}
+
+button:active {
+  background-color: rgb(173, 173, 173);
+}
+
+/* Typing animation */
 #typing-text {
   font-size: 1.5rem;
   color: var(--text-color);
@@ -315,34 +120,17 @@ overflow: hidden;
   text-shadow: 0 0 10px #00e0ff;
 }
 
-#progress-container {
-  width: 80%; /* The bar will be 80% as wide as whatever element it's inside(the parent) */
-  height: 25px; /* Height of the progress bar */
-  background-color: #444;/* give the background color */
-  border-radius: 8px; /* Makes the corners round */
-  margin-top: 20px; /* how far away from the */
-  position: relative;  /* Position relative so that the text can be positioned inside it */
-  overflow: hidden; /* makes sure that all of the text stays inside the bar */
-  display: none; /* default hidden */
+#typing-text::after {
+  content: '|';
+  animation: blink 0.7s infinite;
 }
 
-#progress-bar {
-  height: 100%; /* Full height of the container */
-  width: 0%; /* Start with 0% width */
-  background-color: #c6e4e7; 
-  transition: width 0.1s linear; /* evertime the width changes, make it animate smoothly */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
-#progress-text {
-  position: absolute; /* this elts thh tet float anywhere inside its parent */
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-weight: bold;
-}
-
-
+/* Form Layout */
 .center-form {
   position: relative;
   background-color: #222;
@@ -351,12 +139,12 @@ overflow: hidden;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh; 
-  overflow: hidden;
+  min-height: 100vh;
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
   padding: 40px;
+  overflow: hidden;
 }
 
 .center-form::before {
@@ -384,28 +172,75 @@ overflow: hidden;
   margin-bottom: 20px;
 }
 
-#typing-text::after {
-  content: '|';
-  animation: blink 0.7s infinite;
+/* File input */
+#file-input {
+  margin: 20px 0;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #333;
+  color: #fff;
+  font-size: 1rem;
+  width: 250px;
+  cursor: pointer;
+  transition: border 0.2s;
 }
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+#file-input:hover,
+#file-input:focus {
+  border: 1.5px solid var(--acent-color);
 }
 
-#typing-text {
-  font-size: 1.5rem;
-  color: var(--text-color);
-  margin-bottom: 15px;
-  height: 2rem;
-  white-space: nowrap;
-  overflow: hidden;
-  display: inline-block;
+/* Generate button */
+#generate-button {
+  display: none;
+  margin: 10px 0 0 0;
+  padding: 12px 32px;
+  border-radius: 8px;
+  border: none;
+  background: var(--acent-color);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s, transform 0.1s;
+}
+
+#generate-button:hover {
+  background: #14017a;
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* Progress bar */
+#progress-container {
+  width: 80%;
+  height: 25px;
+  background-color: #444;
+  border-radius: 8px;
+  margin-top: 20px;
   position: relative;
-  text-shadow: 0 0 10px #00e0ff;
+  overflow: hidden;
+  display: none;
 }
 
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #c6e4e7;
+  transition: width 0.1s linear;
+}
+
+#progress-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+}
+
+/* Responsive styles */
 @media screen and (max-width: 560px) {
   .center-form {
     padding: 20px;
@@ -433,11 +268,65 @@ overflow: hidden;
     width: 150px;
     font-size: 14px;
     top: 10px;
-    left: 0px;
+    left: 0;
   }
 
   #progress-container {
     width: 100%;
   }
+
+  .links-container {
+    flex-direction: column;
+    align-items: flex-start;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    z-index: 10;
+    width: 300px;
+    background-color: var(--color-1);
+    box-shadow: -5px 0 5px rgba(0, 0, 0, 0.25);
+    transition: 0.75s ease-out;
+  }
+
+  nav a {
+    width: 100%;
+    height: auto;
+    padding: 20px 30px;
+    justify-content: flex-start;
+  }
+
+  .open-sidebar-button,
+  .close-sidebar-button {
+    display: block;
+    padding: 20px;
+  }
+
+  #sidebar-active:checked ~ .links-container {
+    right: 0;
+  }
+
+  #sidebar-active:checked ~ #overlay {
+    background: red;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9;
+  }
 }
 
+
+
+#solutions {
+  position: relative;
+  top: 30%;;
+  display: flex;
+  justify-content: center;
+  
+}
+
+.summary-solutions {
+  position: absolute;
+  top: 500px;
+}
