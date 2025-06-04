@@ -337,3 +337,26 @@ button:active {
   font-weight: bold;;
                                             
 }
+
+
+#pricing {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 30%;
+  color: green;
+}
+
+#price {
+  font-size: 2rem;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
