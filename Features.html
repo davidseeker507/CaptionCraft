@@ -4,32 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css" />
-    <title>CaptionCraft</title>
+    <title>CaptionCraft Features</title>
     <style>
+        #features {
+            text-align: center;
+            margin-top: 50px;
+            color: white;
+        }
 
-#features {
-    text-align: center;
-    margin-top: 50px;;
-    color: white;
-}
+        html, body {
+            background-color: black;
+        }
 
+        .summary {
+            font-size: 1.2em;
+            color: #ccc;
+            margin: 20px auto;
+            max-width: 800px;
+            line-height: 1.6;
+            padding: 0 20px;
+        }
 
-html, body {
-    background-color: black;
-}
+        /* Make sure features are visible */
+        .features-container {
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
 
-.summary {
-    font-size: 1.2em;
-    color: #ccc;
-    margin: 20px auto;
-    max-width: 800px;
-    line-height: 1.6;
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            margin: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-}
+        .feature-icon {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
 
+        .feature-card h3 {
+            color: white;
+            margin: 15px 0;
+            font-size: 1.4em;
+        }
 
-
-
+        .feature-card p {
+            color: #ccc;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
@@ -53,22 +77,51 @@ html, body {
           <a href="solutions.html">Solutions</a>
           <a href="pricing.html">Pricing</a>
           <a href="contact.html">Contact</a>
+          <a href="signup.html"><button id="Signup">Sign Up - It's Free</button></a>
         </div>
-      </nav>
+    </nav>
 
-
-      <h1 id="features">Features</h1>
-      <p class="summary">
+    <h1 id="features">Features</h1>
+    <p class="summary">
         🎬 <strong>CaptionCraft</strong> lets you <strong>upload your video</strong> and instantly generate <strong>professional-quality subtitles</strong> using AI.  
         You can export subtitles in formats like <strong>SRT</strong> — perfect for editing in apps like Premiere or Final Cut.  
         No more using clunky online editors. It's <strong>totally free</strong> and gives you <strong>full control</strong> over your captions.
-      </p>
-      
-      
+    </p>
 
-      
+    <div class="features-container">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📁</div>
+                <h3>Easy Upload</h3>
+                <p>Just drag and drop your video file - we support MP4, QuickTime, WebM, and other popular formats</p>
+            </div>
 
-      
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>AI Speech Recognition</h3>
+                <p>Our AI can understand speech clearly even with background noise or music</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⚡️</div>
+                <h3>Fast Processing</h3>
+                <p>Get your captions in minutes - perfect for quick turnaround projects</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💾</div>
+                <h3>Multiple Export Formats</h3>
+                <p>Download your captions as SRT files that work with Premiere Pro, Final Cut, and other editors</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="features-cta">
+        <h2>Ready to Get Started?</h2>
+        <p>Join thousands of content creators who use CaptionCraft to make their videos more accessible.</p>
+        <a href="signup.html" class="cta-button">Try It Free</a>
+    </div>
 </body>
 </html>
 
