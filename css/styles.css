@@ -844,4 +844,75 @@ body > h1 {
     100% { transform: translateX(100%); }
 }
 
+/* Sign In Form Styles */
+.signin-form {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.signin-form div {
+    margin-bottom: 20px;
+}
+
+.signin-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.signin-form input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.signin-form input:focus {
+    outline: none;
+    border-color: var(--acent-color);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.signin-form button {
+    width: 100%;
+    padding: 12px;
+    background: var(--acent-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signin-form button:hover {
+    background: rgb(12, 1, 73);
+}
+
+.form-footer {
+    text-align: center;
+}
+
+.signup-link {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.signup-link a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
 
