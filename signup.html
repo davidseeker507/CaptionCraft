@@ -300,7 +300,7 @@
           <p>Join CaptionCraft and start creating professional captions for your videos</p>
         </div>
 
-      <form>
+        <form id="signupForm">
           <div class="form-group">
             <label for="name">Full Name</label>
             <input type="text" id="name" name="name" required placeholder="Enter your full name">
@@ -313,16 +313,16 @@
 
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" required placeholder="Choose a strong password">
+            <input type="password" id="password" name="password" required placeholder="Create a password">
           </div>
 
           <div class="form-group">
-            <label for="confirm-password">Confirm Password</label>
-            <input type="password" id="confirm-password" name="confirm-password" required placeholder="Confirm your password">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
           </div>
 
           <button type="submit" class="signup-button">Create Account</button>
-      </form>
+        </form>
 
         <div class="divider">
           <span>or</span>
@@ -337,5 +337,44 @@
         </p>
       </div>
     </div>
+
+    <script>
+      document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        if (password !== confirmPassword) {
+          alert('Passwords do not match');
+          return;
+        }
+        
+        try {
+          const response = await fetch('http://localhost:3000/api/signup', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+          });
+          
+          const data = await response.json();
+          
+          if (response.ok) {
+            // Store the token
+            localStorage.setItem('token', data.token);
+            // Redirect to home page
+            window.location.href = 'index.html';
+          } else {
+            alert(data.error || 'Signup failed');
+          }
+        } catch (error) {
+          console.error('Signup error:', error);
+          alert('Error creating account. Please try again.');
+        }
+      });
+    </script>
   </body>
 </html>

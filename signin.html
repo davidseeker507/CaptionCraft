@@ -233,7 +233,7 @@
                 <p>Sign in to continue your captioning journey</p>
             </div>
 
-            <form>
+            <form id="loginForm">
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required placeholder="Enter your email">
@@ -268,5 +268,38 @@
             </p>
         </div>
     </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Store the token
+                    localStorage.setItem('token', data.token);
+                    // Redirect to home page
+                    window.location.href = 'index.html';
+                } else {
+                    alert(data.error || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Error logging in. Please try again.');
+            }
+        });
+    </script>
 </body>
 </html>
