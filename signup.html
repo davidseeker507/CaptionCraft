@@ -338,43 +338,24 @@
       </div>
     </div>
 
-    <script>
-      document.getElementById('signupForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-        
-        if (password !== confirmPassword) {
-          alert('Passwords do not match');
-          return;
-        }
-        
-        try {
-          const response = await fetch('http://localhost:3000/api/signup', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-          });
-          
-          const data = await response.json();
-          
-          if (response.ok) {
-            // Store the token
-            localStorage.setItem('token', data.token);
-            // Redirect to home page
-            window.location.href = 'index.html';
-          } else {
-            alert(data.error || 'Signup failed');
-          }
-        } catch (error) {
-          console.error('Signup error:', error);
-          alert('Error creating account. Please try again.');
-        }
-      });
+    <script type="module">
+        import { signup } from './js/auth.js';
+
+        document.querySelector('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.querySelector('input[type="email"]').value;
+            const password = document.querySelector('input[type="password"]').value;
+
+            const result = await signup(email, password);
+            
+            if (result.success) {
+                alert('Signup successful!');
+                window.location.href = 'index.html';
+            } else {
+                alert(result.error || 'Signup failed');
+            }
+        });
     </script>
   </body>
 </html>
