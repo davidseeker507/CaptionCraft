@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up - CaptionCraft</title>
     <link rel="stylesheet" href="css/styles.css" />
-    <script src="google.js" defer type="module"></script>
     <style>
       /* Reset defaults */
       * {
@@ -339,21 +338,49 @@
     </div>
 
     <script type="module">
-        import { signup } from './js/auth.js';
+        import { auth } from './js/auth.js';
 
         document.querySelector('form').addEventListener('submit', async (e) => {
             e.preventDefault();
+            console.log('Form submitted');
             
             const email = document.querySelector('input[type="email"]').value;
             const password = document.querySelector('input[type="password"]').value;
+            const confirmPassword = document.querySelector('input[name="confirmPassword"]').value;
 
-            const result = await signup(email, password);
-            
-            if (result.success) {
-                alert('Signup successful!');
-                window.location.href = 'index.html';
-            } else {
-                alert(result.error || 'Signup failed');
+            console.log('Email:', email);
+            console.log('Password length:', password.length);
+
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                console.error('Passwords do not match');
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Validate password length
+            if (password.length < 6) {
+                console.error('Password too short');
+                alert('Password must be at least 6 characters long!');
+                return;
+            }
+
+            try {
+                console.log('Attempting signup...');
+                const result = await auth.signup(email, password);
+                console.log('Signup result:', result);
+                
+                if (result.success) {
+                    console.log('Signup successful, redirecting...');
+                    alert('Signup successful!');
+                    window.location.href = 'index.html';
+                } else {
+                    console.error('Signup failed:', result.error);
+                    alert(result.error || 'Signup failed');
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                alert('An error occurred during signup. Please try again.');
             }
         });
     </script>
