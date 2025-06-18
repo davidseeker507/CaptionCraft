@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
 const User = require('./models/User');
+const { OAuth2Client } = require('google-auth-library');
 
 // Load environment variables
 dotenv.config();
@@ -124,6 +125,44 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || 'YOUR_GOOGLE_CLIENT_ID';
+const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
+
+// Google Sign-In endpoint
+app.post('/api/auth/google', async (req, res) => {
+  try {
+    const { token } = req.body;
+    if (!token) return res.status(400).json({ error: 'No token provided' });
+
+    // Verify the token with Google
+    const ticket = await googleClient.verifyIdToken({
+      idToken: token,
+      audience: GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    const email = payload.email;
+
+    // Check if user exists, otherwise create
+    let user = await User.findOne({ email });
+    if (!user) {
+      user = new User({ email, password: 'google-oauth', createdAt: new Date() });
+      await user.save();
+    }
+
+    // Create JWT for your app
+    const jwtToken = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET || 'your-secret-key',
+      { expiresIn: '24h' }
+    );
+
+    res.json({ token: jwtToken });
+  } catch (error) {
+    console.error('Google sign-in error:', error);
+    res.status(500).json({ error: 'Google sign-in failed' });
+  }
+});
+
 app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend is working!' });
 });
@@ -146,3 +185,6 @@ mongoose.connect(MONGODB_URI, {
   console.error('❌ Failed to connect to MongoDB:', err);
   process.exit(1);
 });
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww

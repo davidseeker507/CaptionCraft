@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up - CaptionCraft</title>
     <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
       /* Reset defaults */
       * {
@@ -320,6 +321,12 @@
             <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
           </div>
 
+          <div id="g_id_onload"
+               data-client_id="124446627508-tdl1d0v7vm0fvc2t7po9i5qumae13unh.apps.googleusercontent.com"
+               data-callback="handleCredentialResponse">
+          </div>
+          <div class="g_id_signin" data-type="standard"></div>
+
           <button type="submit" class="signup-button">Create Account</button>
         </form>
 
@@ -383,6 +390,37 @@
                 alert('An error occurred during signup. Please try again.');
             }
         });
+    </script>
+
+    <script>
+      // This function is called by Google after sign-in
+      function handleCredentialResponse(response) {
+        // The response.credential contains a JWT token from Google
+        console.log("Google credential:", response.credential);
+        // Send this token to your backend for verification and login/signup
+        fetch('http://localhost:3000/api/auth/google', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token: response.credential })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.token) {
+            // Save the token and redirect or show success
+            localStorage.setItem('token', data.token);
+            alert('Google sign-in successful!');
+            window.location.href = 'index.html';
+          } else {
+            alert(data.error || 'Google sign-in failed');
+          }
+        })
+        .catch(err => {
+          console.error('Google sign-in error:', err);
+          alert('Google sign-in error.');
+        });
+      }
     </script>
   </body>
 </html>
