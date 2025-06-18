@@ -50,6 +50,8 @@ What have I actually Learned?:
     <link rel="stylesheet" href="css/styles.css" />
     
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script type="module" src="js/script.js"></script>
+    <script type="module" src="js/nav.js"></script>
   </head>
   <body>
     <nav>
@@ -79,7 +81,7 @@ What have I actually Learned?:
 <!-- inside .center-form -->
 <div class="center-form">
   <h1 id="cc">CaptionCraft</h1>
-  <h2 id="typing-text">Loading</h2>
+  <div id="typing-text"></div>
   <p>Convert your videos to text with AI</p>
   <input type="file" id="file-input" />
   <p id="error-message" style="color: red; font-weight: bold;"></p>
@@ -151,9 +153,6 @@ What have I actually Learned?:
     </div>
   </div>
 </div>
-
-<script src="js/script.js" defer></script>
-<script type="module" src="js/nav.js"></script>
     </body>  
 </html>  
 

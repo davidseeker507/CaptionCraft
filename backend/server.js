@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const path = require('path');
 const User = require('./models/User');
 
 // Load environment variables
@@ -12,9 +14,53 @@ dotenv.config();
 // Create Express app
 const app = express();
 
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname))
+  }
+});
+
+const upload = multer({ 
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 1024 // 1GB limit
+  }
+});
+
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '1gb' }));
+app.use(express.urlencoded({ limit: '1gb', extended: true }));
+
+// Create uploads directory if it doesn't exist
+const fs = require('fs');
+if (!fs.existsSync('uploads')) {
+  fs.mkdirSync('uploads');
+}
+
+// File upload endpoint
+app.post('/api/upload', upload.single('video'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    // Here you would process the video file
+    // For now, we'll just return success
+    res.json({ 
+      message: 'File uploaded successfully',
+      filename: req.file.filename,
+      path: req.file.path
+    });
+  } catch (error) {
+    console.error('Upload error:', error);
+    res.status(500).json({ error: 'Error uploading file' });
+  }
+});
 
 // Routes
 app.post('/api/signup', async (req, res) => {

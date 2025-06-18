@@ -1,39 +1,65 @@
-// ===============================
-// ✍️ Typing animation
-// ===============================
-const phrases = [
-  "Turn your video into text...",
-  "Auto subtitles in seconds...",
-  "AI-powered captioning...",
-  "Effortless video transcription...",
-  "Transform speech to text...",
-  "Instant captions for your videos...",
-  "Create subtitles with AI...",
-  "Video captioning made easy...",
-  "AI subtitles for your content...",
-];
+// Main application module
+import FileHandler from './fileHandler.js';
+import { auth } from './auth.js';
 
-let currentPhraseIndex = 0;
-let currentCharIndex = 0;
-let isDeleting = false;
-const typingElement = document.getElementById("typing-text");
-
-function type() {
-  const currentPhrase = phrases[currentPhraseIndex];
-  typingElement.textContent = currentPhrase.substring(0, currentCharIndex);
-  currentCharIndex += isDeleting ? -1 : 1;
-
-  if (!isDeleting && currentCharIndex === currentPhrase.length) {
-    setTimeout(() => (isDeleting = true), 1000);
-  } else if (isDeleting && currentCharIndex === 0) {
-    isDeleting = false;
-    currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+class App {
+  constructor() {
+    this.initializeComponents();
+    this.setupTypingAnimation();
   }
 
-  setTimeout(type, isDeleting ? 50 : 100);
+  initializeComponents() {
+    // Initialize file handling
+    this.fileHandler = new FileHandler();
+  }
+
+  setupTypingAnimation() {
+    const typingText = document.getElementById('typing-text');
+    const phrases = [
+      'Convert videos to text',
+      'Generate accurate captions',
+      'Export to any format',
+      'Powered by AI'
+    ];
+    let currentPhrase = 0;
+    let currentChar = 0;
+    let isDeleting = false;
+    let typingSpeed = 100;
+
+    const type = () => {
+      const currentText = phrases[currentPhrase];
+      
+      if (isDeleting) {
+        typingText.textContent = currentText.substring(0, currentChar - 1);
+        currentChar--;
+        typingSpeed = 50;
+      } else {
+        typingText.textContent = currentText.substring(0, currentChar + 1);
+        currentChar++;
+        typingSpeed = 100;
+      }
+
+      if (!isDeleting && currentChar === currentText.length) {
+        isDeleting = true;
+        typingSpeed = 2000; // Pause at end
+      } else if (isDeleting && currentChar === 0) {
+        isDeleting = false;
+        currentPhrase = (currentPhrase + 1) % phrases.length;
+        typingSpeed = 500; // Pause before typing
+      }
+
+      setTimeout(type, typingSpeed);
+    };
+
+    // Start the typing animation
+    type();
+  }
 }
 
-type();
+// Initialize app when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  new App();
+});
 
 
 // ===============================
@@ -71,9 +97,15 @@ fileInput.addEventListener("change", (e) => {
 // ===============================
 // 
 // ===============================
-document.getElementById("generate-button").addEventListener("click", () => {
-  //  If there's still an error showing, cancel everything
+document.getElementById("generate-button").addEventListener("click", async () => {
+  // If there's still an error showing, cancel everything
   if (errorMessage.textContent !== "") return;
+
+  const file = fileInput.files[0];
+  if (!file) {
+    errorMessage.textContent = "❌ Please select a file first.";
+    return;
+  }
 
   const progressContainer = document.getElementById("progress-container");
   const progressBar = document.getElementById("progress-bar");
@@ -81,22 +113,36 @@ document.getElementById("generate-button").addEventListener("click", () => {
 
   progressContainer.style.display = "block";
   progressBar.style.width = "0%";
-  progressText.textContent = "";
+  progressText.textContent = "0%";
 
-  let progress = 0;
+  try {
+    const formData = new FormData();
+    formData.append('video', file);
 
-  const interval = setInterval(() => {
-    if (progress >= 100) {
-      clearInterval(interval);
-      confetti(); //  Confetti party!
-      progressText.textContent = "🎉 Done!";
-      progressText.style.color = "lightgreen";
-    } else {
-      progress++;
-      progressBar.style.width = progress + "%";
-      progressText.textContent = progress + "%";
+    const response = await fetch('http://localhost:3000/api/upload', {
+      method: 'POST',
+      body: formData,
+      // No need to set Content-Type header, browser will set it automatically with boundary
+    });
+
+    if (!response.ok) {
+      throw new Error(`Upload failed: ${response.statusText}`);
     }
-  }, 100);
+
+    const data = await response.json();
+    console.log('Upload successful:', data);
+
+    // Show success
+    progressBar.style.width = "100%";
+    progressText.textContent = "🎉 Done!";
+    progressText.style.color = "lightgreen";
+    confetti(); // Confetti party!
+
+  } catch (error) {
+    console.error('Upload error:', error);
+    errorMessage.textContent = `❌ Upload failed: ${error.message}`;
+    progressContainer.style.display = "none";
+  }
 });
 
 

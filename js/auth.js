@@ -1,78 +1,98 @@
-function handleCredentialResponse(response) {
-    // The response.credential contains a JWT token
-    console.log("Encoded JWT ID token: " + response.credential);
-    
-    // Send this token to your backend for verification
-    fetch('/auth/google', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        token: response.credential
-      })
-    });
+// Authentication module
+const API_URL = 'http://localhost:3000/api';
+
+class Auth {
+  constructor() {
+    this.token = localStorage.getItem('token');
   }
 
-// Function to handle user signup
-async function signup(email, password) {
+  async signup(email, password) {
     try {
-        const response = await fetch('http://localhost:3000/api/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        });
+      const response = await fetch(`${API_URL}/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
 
-        const data = await response.json();
-        
-        if (response.ok) {
-            // Store the token
-            localStorage.setItem('token', data.token);
-            return { success: true, data };
-        } else {
-            return { success: false, error: data.error };
-        }
+      const data = await response.json();
+      
+      if (response.ok) {
+        this.setToken(data.token);
+        return { success: true, data };
+      } else {
+        return { success: false, error: data.error };
+      }
     } catch (error) {
-        return { success: false, error: error.message };
+      return { success: false, error: error.message };
     }
-}
+  }
 
-// Function to handle user login
-async function login(email, password) {
+  async login(email, password) {
     try {
-        const response = await fetch('http://localhost:3000/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        });
+      const response = await fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
 
-        const data = await response.json();
-        
-        if (response.ok) {
-            // Store the token
-            localStorage.setItem('token', data.token);
-            return { success: true, data };
-        } else {
-            return { success: false, error: data.error };
-        }
+      const data = await response.json();
+      
+      if (response.ok) {
+        this.setToken(data.token);
+        return { success: true, data };
+      } else {
+        return { success: false, error: data.error };
+      }
     } catch (error) {
-        return { success: false, error: error.message };
+      return { success: false, error: error.message };
     }
-}
+  }
 
-// Function to check if user is logged in
-function isLoggedIn() {
-    return !!localStorage.getItem('token');
-}
-
-// Function to log out
-function logout() {
+  logout() {
+    this.token = null;
     localStorage.removeItem('token');
+  }
+
+  isLoggedIn() {
+    return !!this.token;
+  }
+
+  setToken(token) {
+    this.token = token;
+    localStorage.setItem('token', token);
+  }
+
+  getToken() {
+    return this.token;
+  }
+
+  // Google authentication handler
+  async handleGoogleAuth(credential) {
+    try {
+      const response = await fetch(`${API_URL}/auth/google`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: credential })
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        this.setToken(data.token);
+        return { success: true, data };
+      } else {
+        return { success: false, error: data.error };
+      }
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
 }
 
-// Export the functions
-export { signup, login, isLoggedIn, logout };
+export const auth = new Auth();
