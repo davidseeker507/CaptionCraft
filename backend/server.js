@@ -133,6 +133,7 @@ app.post('/api/auth/google', async (req, res) => {
     if (!token) return res.status(400).json({ error: 'No token provided' });
 
     // Verify the token with Google
+    console.log("GOOGLE_CLIENT_ID", GOOGLE_CLIENT_ID)
     const ticket = await googleClient.verifyIdToken({
       idToken: token,
       audience: GOOGLE_CLIENT_ID,

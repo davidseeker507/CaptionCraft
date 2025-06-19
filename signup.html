@@ -344,7 +344,7 @@
     <script type="module">
         import { auth } from './js/auth.js';
 
-        document.querySelector('form').addEventListener('submit', async (e) => {
+        document.querySelector('form').addEventLisstener('submit', async (e) => {
             e.preventDefault();
             console.log('Form submitted');
             

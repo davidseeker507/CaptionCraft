@@ -252,6 +252,12 @@
                     <a href="forgot-password.html" class="forgot-password">Forgot Password?</a>
                 </div>
 
+                <div id="g_id_onload"
+                     data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                     data-callback="handleCredentialResponse">
+                </div>
+                <div class="g_id_signin" data-type="standard"></div>
+
                 <button type="submit" class="signin-button">Sign In</button>
             </form>
 
@@ -259,16 +265,13 @@
                 <span>or</span>
             </div>
 
-            <button class="google-signin">
-                Continue with Google
-            </button>
-
             <p class="signup-link">
                 Don't have an account? <a href="signup.html">Sign up</a>
             </p>
         </div>
     </div>
 
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -300,6 +303,35 @@
                 alert('Error logging in. Please try again.');
             }
         });
+
+        // This function is called by Google after sign-in
+        function handleCredentialResponse(response) {
+            // The response.credential contains a JWT token from Google
+            console.log("Google credential:", response.credential);
+            // Send this token to your backend for verification and login/signup
+            fetch('http://localhost:3000/api/auth/google', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ token: response.credential })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.token) {
+                    // Save the token and redirect or show success
+                    localStorage.setItem('token', data.token);
+                    alert('Google sign-in successful!');
+                    window.location.href = 'index.html';
+                } else {
+                    alert(data.error || 'Google sign-in failed');
+                }
+            })
+            .catch(err => {
+                console.error('Google sign-in error:', err);
+                alert('Google sign-in error.');
+            });
+        }
     </script>
 </body>
 </html>
