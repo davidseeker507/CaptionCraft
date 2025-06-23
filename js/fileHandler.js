@@ -48,29 +48,88 @@ class FileHandler {
       return;
     }
 
-    this.showProgress();
+    this.showProgress("Uploading video...");
     try {
+      // 1. Upload video
       const formData = new FormData();
       formData.append('video', file);
 
-      const response = await fetch('http://localhost:3000/api/upload', {
+      const uploadResponse = await fetch('http://localhost:3000/api/upload', {
         method: 'POST',
         body: formData,
       });
 
-      if (!response.ok) {
-        throw new Error(`Upload failed: ${response.statusText}`);
+      if (!uploadResponse.ok) {
+        throw new Error(`Upload failed: ${uploadResponse.statusText}`);
       }
 
-      const data = await response.json();
-      console.log('Upload successful:', data);
-      this.showSuccess();
+      const uploadData = await uploadResponse.json();
+      console.log('Upload successful:', uploadData);
+      this.updateProgress(25, "Extracting audio...");
+
+      // 2. Extract audio
+      const extractResponse = await fetch('http://localhost:3000/api/extract-audio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filePath: uploadData.path })
+      });
+      if (!extractResponse.ok) {
+        throw new Error(`Audio extraction failed: ${extractResponse.statusText}`);
+      }
+      const extractData = await extractResponse.json();
+      console.log('Audio extracted:', extractData);
+      this.updateProgress(50, "Transcribing audio...");
+
+      // 3. Transcribe audio
+      const transcribeResponse = await fetch('http://localhost:3000/api/transcribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ audioFilePath: extractData.audioFilePath })
+      });
+      if (!transcribeResponse.ok) {
+        throw new Error(`Transcription failed: ${transcribeResponse.statusText}`);
+      }
+      const transcribeData = await transcribeResponse.json();
+      console.log('Transcription:', transcribeData);
+      this.updateProgress(75, "Generating SRT file...");
+
+      // 4. Download SRT
+      await this.downloadSrt(transcribeData.segments, extractData.audioFilePath);
+      this.updateProgress(100, "🎉 Done! SRT downloaded.");
+      this.progressText.style.color = "lightgreen";
+      if (typeof confetti === 'function') {
+        confetti();
+      }
 
     } catch (error) {
-      console.error('Upload error:', error);
-      this.showError(`❌ Upload failed: ${error.message}`);
+      console.error('Error:', error);
+      this.showError(`❌ ${error.message}`);
       this.hideProgress();
     }
+  }
+
+  async downloadSrt(segments, audioFilePath) {
+    const response = await fetch('http://localhost:3000/api/srt', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ segments, audioFilePath })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to generate SRT');
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'transcription.srt';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
   }
 
   showError(message) {
@@ -81,10 +140,16 @@ class FileHandler {
     this.errorMessage.textContent = "";
   }
 
-  showProgress() {
+  showProgress(text = "") {
     this.progressContainer.style.display = "block";
     this.progressBar.style.width = "0%";
-    this.progressText.textContent = "0%";
+    this.progressText.textContent = text;
+    this.progressText.style.color = "";
+  }
+
+  updateProgress(percent, text = "") {
+    this.progressBar.style.width = percent + "%";
+    this.progressText.textContent = text;
   }
 
   hideProgress() {
