@@ -54,7 +54,7 @@ class FileHandler {
       const formData = new FormData();
       formData.append('video', file);
 
-      const uploadResponse = await fetch('http://localhost:3000/api/upload', {
+      const uploadResponse = await fetch('http://localhost:3000/upload', {
         method: 'POST',
         body: formData,
       });
@@ -68,7 +68,7 @@ class FileHandler {
       this.updateProgress(25, "Extracting audio...");
 
       // 2. Extract audio
-      const extractResponse = await fetch('http://localhost:3000/api/extract-audio', {
+      const extractResponse = await fetch('http://localhost:3000/extract-audio', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ filePath: uploadData.path })
@@ -81,7 +81,7 @@ class FileHandler {
       this.updateProgress(50, "Transcribing audio...");
 
       // 3. Transcribe audio
-      const transcribeResponse = await fetch('http://localhost:3000/api/transcribe', {
+      const transcribeResponse = await fetch('http://localhost:3000/transcribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ audioFilePath: extractData.audioFilePath })
@@ -109,7 +109,7 @@ class FileHandler {
   }
 
   async downloadSrt(segments, audioFilePath) {
-    const response = await fetch('http://localhost:3000/api/srt', {
+    const response = await fetch('http://localhost:3000/srt', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
