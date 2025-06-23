@@ -11,7 +11,7 @@ const ALLOWED_TYPES = [
 // Set API_BASE depending on environment
 const API_BASE = window.location.hostname === 'localhost'
   ? 'http://localhost:3000'
-  : 'https://your-backend.onrender.com'; // <-- replace with your actual deployed backend URL
+  : 'https://captioncraft-4e4j.onrender.com'; // Updated with your actual deployed backend URL
 
 class FileHandler {
   constructor() {
