@@ -38,6 +38,82 @@ What have I actually Learned?:
 <body> = Is everything that the person visiting your website is going to see.
 <button> = a button
 
+Step 1: User Uploads Video
+
+User selects video file in browser
+fileHandler.js validates file type (mp4, mov, webm, etc.)
+File uploaded to backend's uploads/ directory
+Backend returns file path
+
+Step 2: Extract Audio
+
+Backend receives video file path
+Uses ffmpeg to extract audio as .mp3
+Original video file is deleted (cleanup)
+Returns audio file path
+
+Step 3: Transcribe Audio
+
+API
+Backend sends audio file to OpenAI Whisper
+Whisper returns transcription with timestamps
+Each segment has: start_time, end_time, text
+
+Step 4: Generate SRT File
+
+Download
+Backend converts Whisper segments to SRT format
+SRT format: numbered segments with timestamps
+File sent to user as download
+Audio file is deleted (cleanup)
+📁 File Structure
+
+)
+🔧 Technologies Used
+Frontend:
+HTML/CSS/JavaScript - User interface
+Fetch API - HTTP requests to backend
+File API - Handle video file uploads
+Backend:
+Express.js - Web server framework
+Multer - File upload handling
+ffmpeg - Audio extraction from video
+Axios - HTTP requests to OpenAI
+MongoDB/Mongoose - Database (for user auth)
+External Services:
+OpenAI Whisper API - Speech-to-text transcription
+MongoDB Atlas - Cloud database
+Render - Backend hosting
+Vercel - Frontend hosting
+🌐 Data Flow
+
+)
+🔐 Security & Environment
+Environment Variables (Render):
+MONGODB_URI - Database connection
+OPENAI_API_KEY - Whisper API access
+JWT_SECRET - User authentication
+GOOGLE_CLIENT_ID - Google OAuth
+Security Features:
+API keys stored as environment variables
+CORS enabled for frontend-backend communication
+File type validation
+Automatic file cleanup
+💰 Costs
+Render: Free tier (backend hosting)
+Vercel: Free tier (frontend hosting)
+MongoDB Atlas: Free tier (database)
+OpenAI Whisper: ~$0.006 per minute of audio
+🚀 Current Status
+✅ Frontend deployed and working
+✅ Backend deployed and working
+✅ Database connected
+✅ File upload working
+✅ Audio extraction working
+✅ API integration configured
+❌ Needs OpenAI credits to complete transcription
+Your app is fully built and ready to work - just needs OpenAI credits added! 🎉
+
 
 -->
 <!DOCTYPE html>
@@ -61,7 +137,7 @@ What have I actually Learned?:
           <path d="M120-120v-60h720v60H120Zm0-240v-60h720v60H120Zm0-240v-60h720v60H120Z"/>
         </svg>
       </label>
-sds
+
       <div class="links-container">
         <label for="sidebar-active" class="close-sidebar-button">
           <label id="overlay" for="sidebar-active"></label>
