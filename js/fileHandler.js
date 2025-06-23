@@ -8,6 +8,11 @@ const ALLOWED_TYPES = [
   "video/x-msvideo",
 ];
 
+// Set API_BASE depending on environment
+const API_BASE = window.location.hostname === 'localhost'
+  ? 'http://localhost:3000'
+  : 'https://your-backend.onrender.com'; // <-- replace with your actual deployed backend URL
+
 class FileHandler {
   constructor() {
     this.fileInput = document.getElementById("file-input");
@@ -54,7 +59,7 @@ class FileHandler {
       const formData = new FormData();
       formData.append('video', file);
 
-      const uploadResponse = await fetch('http://localhost:3000/upload', {
+      const uploadResponse = await fetch(`${API_BASE}/upload`, {
         method: 'POST',
         body: formData,
       });
@@ -68,7 +73,7 @@ class FileHandler {
       this.updateProgress(25, "Extracting audio...");
 
       // 2. Extract audio
-      const extractResponse = await fetch('http://localhost:3000/extract-audio', {
+      const extractResponse = await fetch(`${API_BASE}/extract-audio`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ filePath: uploadData.path })
@@ -81,7 +86,7 @@ class FileHandler {
       this.updateProgress(50, "Transcribing audio...");
 
       // 3. Transcribe audio
-      const transcribeResponse = await fetch('http://localhost:3000/transcribe', {
+      const transcribeResponse = await fetch(`${API_BASE}/transcribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ audioFilePath: extractData.audioFilePath })
@@ -109,7 +114,7 @@ class FileHandler {
   }
 
   async downloadSrt(segments, audioFilePath) {
-    const response = await fetch('http://localhost:3000/srt', {
+    const response = await fetch(`${API_BASE}/srt`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
