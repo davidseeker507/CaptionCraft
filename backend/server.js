@@ -11,6 +11,7 @@ const { exec } = require('child_process');
 const axios = require('axios');
 const User = require('./models/User');
 const { OAuth2Client } = require('google-auth-library');
+const rateLimit = require('express-rate-limit');
 
 // Load environment variables
 dotenv.config();
@@ -49,22 +50,39 @@ const upload = multer({
   }
 });
 
-// Middleware
+// Allowed origins (adjust as needed)
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173', 'https://caption-craft-gold.vercel.app'];
+
 app.use(cors({
-  origin: true, // Allow all origins for testing
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  origin: (origin, cb) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return cb(null, true);
+    }
+    return cb(new Error('CORS not allowed'), false);
+  },
+  credentials: true,
 }));
 
-// Handle preflight requests
-app.options('*', cors());
+// Rate limit heavy endpoints (20 requests per 15 minutes per IP)
+const heavyLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Utility to safely delete files
+const safeUnlink = async (p) => {
+  try {
+    await fs.promises.unlink(p);
+  } catch (_) {}
+};
 
 app.use(express.json({ limit: '1gb' }));
 app.use(express.urlencoded({ limit: '1gb', extended: true }));
 
 // Video processing endpoints
-app.post('/upload', upload.single('video'), (req, res) => {
+app.post('/upload', heavyLimiter, upload.single('video'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
@@ -76,7 +94,7 @@ app.post('/upload', upload.single('video'), (req, res) => {
 });
 
 // Audio extraction endpoint
-app.post('/extract-audio', (req, res) => {
+app.post('/extract-audio', heavyLimiter, async (req, res) => {
   const { filePath } = req.body;
   if (!filePath) {
     return res.status(400).json({ error: 'No video file path provided' });
@@ -85,37 +103,35 @@ app.post('/extract-audio', (req, res) => {
   const audioFileName = path.basename(filePath, path.extname(filePath)) + '.mp3';
   const audioFilePath = path.join(uploadDir, audioFileName);
 
-  // ffmpeg command to extract audio
   const ffmpegCmd = `ffmpeg -y -i "${filePath}" -vn -acodec libmp3lame -ar 44100 -ac 2 -ab 192k -f mp3 "${audioFilePath}"`;
 
-  exec(ffmpegCmd, (error, stdout, stderr) => {
-    if (error) {
-      console.error('ffmpeg error:', stderr);
-      return res.status(500).json({ error: 'Audio extraction failed', details: stderr });
-    }
-    // Delete the original video file after audio extraction
-    fs.unlink(filePath, (err) => {
-      if (err) {
-        console.warn('Failed to delete video file:', filePath, err.message);
+  exec(ffmpegCmd, async (error, stdout, stderr) => {
+    try {
+      if (error) {
+        console.error('ffmpeg error:', stderr);
+        return res.status(500).json({ error: 'Audio extraction failed', details: stderr });
       }
-    });
-    res.json({ audioFilePath });
+      await safeUnlink(filePath);
+      res.json({ audioFilePath });
+    } catch (e) {
+      res.status(500).json({ error: 'Internal error' });
+    }
   });
 });
 
 // Transcription endpoint
-app.post('/transcribe', async (req, res) => {
+app.post('/transcribe', heavyLimiter, async (req, res) => {
   const { audioFilePath } = req.body;
   if (!audioFilePath) {
     return res.status(400).json({ error: 'No audio file path provided' });
   }
 
-  try {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-      return res.status(500).json({ error: 'OpenAI API key not configured' });
-    }
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    return res.status(500).json({ error: 'OpenAI API key not configured' });
+  }
 
+  try {
     const FormData = require('form-data');
     const formData = new FormData();
     formData.append('file', fs.createReadStream(audioFilePath));
@@ -132,13 +148,21 @@ app.post('/transcribe', async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
+    let msg = 'Transcription failed';
+    if (error.response && error.response.data && error.response.data.error) {
+      if (error.response.data.error.code === 'insufficient_quota') {
+        msg = 'OpenAI quota exceeded. Please try again later.';
+      }
+    }
     console.error('Transcription error:', error.response ? error.response.data : error.message);
-    res.status(500).json({ error: 'Transcription failed', details: error.response ? error.response.data : error.message });
+    res.status(500).json({ error: msg });
+  } finally {
+    await safeUnlink(audioFilePath);
   }
 });
 
 // SRT conversion endpoint
-app.post('/srt', (req, res) => {
+app.post('/srt', heavyLimiter, async (req, res) => {
   const { segments, audioFilePath } = req.body;
   if (!segments || !Array.isArray(segments)) {
     return res.status(400).json({ error: 'No segments provided' });
@@ -162,13 +186,8 @@ app.post('/srt', (req, res) => {
   res.setHeader('Content-Type', 'text/srt');
   res.send(srt);
 
-  // Delete the audio file after SRT generation, if provided
   if (audioFilePath) {
-    fs.unlink(audioFilePath, (err) => {
-      if (err) {
-        console.warn('Failed to delete audio file:', audioFilePath, err.message);
-      }
-    });
+    await safeUnlink(audioFilePath);
   }
 });
 
