@@ -108,7 +108,11 @@ class FileHandler {
 
     } catch (error) {
       console.error('Error:', error);
-      this.showError(`❌ ${error.message}`);
+      if (error instanceof TypeError && error.message.includes('NetworkError')) {
+        this.showError('The server might have been sleeping or is unreachable. Please try again.');
+      } else {
+        this.showError(`❌ ${error.message}`);
+      }
       this.hideProgress();
     }
   }
